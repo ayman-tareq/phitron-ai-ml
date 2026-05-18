@@ -1,0 +1,12 @@
+Practice Question
+Dataset: https://drive.google.com/drive/folders/15gCS3zHfVajTNzxosEC80zGrlZINQq8x?usp=sharing
+
+Problems
+Using sales, draw a lineplot of date vs sales.
+From students, plot hours_studied vs marks and color by gender.
+Create a grid of scatterplots (hours_studied vs marks) faceted by subject.
+Plot a histogram of marks with a KDE overlay.
+Show the KDE curve for hours_studied.
+Display the count of records per subject.
+Draw a regression line for hours_studied and marks.
+Create a pairplot for students' dataset. 
