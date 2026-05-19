@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Problem 6 — Imputation Strategy Recommendations</title>
+  <style>
+    body { font-family: "Noto Sans Bengali", "Hind Siliguri", system-ui, sans-serif; line-height: 1.7; max-width: 900px; margin: 2rem auto; padding: 0 1rem; color: #0f172a; background: #f8fafc; }
+    h1 { color: #1d4ed8; font-size: 1.5rem; }
+    table { width: 100%; border-collapse: collapse; background: #fff; margin: 1rem 0; font-size: 0.95rem; }
+    th, td { border: 1px solid #e2e8f0; padding: 0.65rem; text-align: left; vertical-align: top; }
+    th { background: #eff6ff; }
+    .note { background: #fff; border-left: 4px solid #2563eb; padding: 1rem; margin-top: 1.5rem; }
+  </style>
+</head>
+<body>
+  <h1>Problem 6: Best imputation strategy per column</h1>
+  <p>Module 3 · Missing data handling</p>
+
+  <table>
+    <tr>
+      <th>Column</th>
+      <th>Recommended strategy</th>
+      <th>Justification (যুক্তি)</th>
+    </tr>
+    <tr>
+      <td><strong>Income</strong><br>15% missing, skewed right</td>
+      <td><strong>Median</strong> (train-only) or log-transform + median</td>
+      <td>Mean ভুলভাবে উচ্চ outlier-এর দিকে টেনে নেয়। Median robust। খুব skewed হলে log(1+x) করে median নিলে distribution ভালো থাকে।</td>
+    </tr>
+    <tr>
+      <td><strong>Rating</strong><br>8% missing, normal</td>
+      <td><strong>Mean</strong> (train-only)</td>
+      <td>Bell-shaped ডেটায় mean ≈ center; কম missing হওয়ায় mean imputation সাধারণত যথেষ্ট।</td>
+    </tr>
+    <tr>
+      <td><strong>City</strong><br>5% missing, 50 categories, one dominates</td>
+      <td><strong>Mode (most frequent)</strong> + optional missing indicator</td>
+      <td>High cardinality-তে random category ঝুঁকিপূর্ণ। Dominant class (≈40%) mode হিসেবে নিরাপদ baseline। Indicator দিলে “City ছিল না” তথ্য রাখা যায়।</td>
+    </tr>
+    <tr>
+      <td><strong>Diagnosis</strong><br>22% missing, 3 balanced classes</td>
+      <td><strong>Constant = "Missing"</strong> + <strong>missing indicator</strong></td>
+      <td>Mode impute করলে ভুল class bias হতে পারে। আলাদা “Missing” level + binary flag মিসিং প্যাটার্ন মডেলে রাখে।</td>
+    </tr>
+    <tr>
+      <td><strong>Cabin</strong><br>68% missing, many categories</td>
+      <td><strong>Drop column</strong> অথবা constant <strong>"Unknown"</strong> + indicator</td>
+      <td>৬৮% missing মানে বেশিরভাগ row-এ আসল তথ্য নেই — impute করলে noise বাড়ে। প্রায়ই column drop বা একটিমাত্র “Unknown” + indicator সবচেয়ে ভালো।</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    <strong>সাধারণ নিয়ম:</strong> সব imputation <strong>train set-এ fit</strong>, test-এ শুধু <strong>transform</strong> — data leakage এড়াতে। Numerical → median (skewed) বা mean (symmetric); categorical → mode বা dedicated “Missing”; খুব বেশি missing → drop বা indicator।
+  </div>
+</body>
+</html>
