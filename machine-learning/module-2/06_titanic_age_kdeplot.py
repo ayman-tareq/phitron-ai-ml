@@ -9,7 +9,7 @@ def main() -> None:
 
     sns.set_theme(style="whitegrid")
     plt.figure(figsize=(8, 5))
-    sns.kdeplot(data=df, x="age")
+    sns.kdeplot(data=df, x="age", fill=True)
     plt.title("Age Distribution")
     plt.xlabel("Age")
     plt.ylabel("Density")
